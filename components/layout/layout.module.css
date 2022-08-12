@@ -1,0 +1,6 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--page-horizontal-padding);
+    min-height: calc(100vh - var(--navbar-height) - 2 * var(--navbar-vertical-padding));
+}

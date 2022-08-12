@@ -1,0 +1,27 @@
+.poem {
+    padding: 1rem;
+}
+
+.poem:hover {
+    filter: brightness(1.25);
+}
+
+.title {
+    font-size: 18pt;
+    font-weight: 800;
+    margin: 1rem 0;
+}
+
+.meta {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.highlighted {
+    color: var(--primary-color)
+}
+
+.excerpt {
+    margin: 1rem 0;
+}

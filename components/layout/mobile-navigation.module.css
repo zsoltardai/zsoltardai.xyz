@@ -1,0 +1,22 @@
+.header {
+    display: none;
+    flex-direction: column;
+    padding: var(--navbar-vertical-padding) var(--page-horizontal-padding);
+    width: var(--page-width);
+    z-index: 100;
+    border-bottom: var(--border);
+}
+
+.bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+    .header {
+        display: block;
+    }
+}

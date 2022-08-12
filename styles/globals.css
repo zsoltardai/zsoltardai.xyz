@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+:root {
+  --primary-color: #027BCE;
+  --border-radius: 5px;
+  --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  --background-color: #FFFFFF;
+  --text-color: #000000;
+  --border: 1px solid rgba(0, 0, 0, 0.2);
+  --navbar-height: 50px;
+  --navbar-vertical-padding: 15px;
+  --page-width: 60vw;
+  --page-horizontal-padding: 20vw;
+  --tag-background: #F1FAEE;
+  --bg-success: #43C59E;
+  --bg-error: #C1292E;
+  --bg-pending: #235789;
+  --text-white: #FFFFFF;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+notification {
+  background: none;
+  color: var(--text-white)
+}
+
+a {
+  text-decoration: none;
+}
+
+.dark * {
+  --box-shadow: rgba(255, 255, 255, 0.2) 0px 7px 29px 0px;
+  --background-color: #000000;
+  --text-color: #FFFFFF;
+  --border: 1px solid rgba(255, 255, 255, 0.2);
+  --tag-background: #7C7F7A;
+}
+
+.dark notification {
+  background: none;
+}
+
+@media screen and (max-width: 900px) {
+  * {
+    --page-width: 95vw;
+    --page-horizontal-padding: 2.5vw;
+  }
+}

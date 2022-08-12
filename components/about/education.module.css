@@ -1,0 +1,25 @@
+.container {
+    margin: 1rem 0;
+}
+
+.container section {
+    margin: 1rem 0;
+    text-align: justify;
+}
+
+.progress {
+    height: 30px;
+    border-radius: var(--border-radius);
+    color: var(--primary-color);
+}
+
+.center {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+@media screen and (max-width: 900px) {
+    .progress {
+        height: 15px;
+    }
+}

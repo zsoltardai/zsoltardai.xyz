@@ -1,0 +1,46 @@
+.notification {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 50%;
+    color: var(--text-white);
+    z-index: 100;
+    min-width: 95vw;
+    padding: 0.5rem 2.5vw;
+    min-height: 50px;
+    background-color: var(--bg-pending);
+    align-items: center;
+}
+
+.left {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.success {
+    background-color: var(--bg-success);
+}
+
+.error {
+    background-color: var(--bg-error);
+}
+
+@media screen and (max-width: 900px) {
+    .notification {
+        gap: 10%;
+    }
+
+    .right {
+        text-align: right;
+    }
+}

@@ -1,0 +1,73 @@
+.container {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin: 2rem 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.control {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.control label {
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 1rem 0;
+}
+
+.control input,
+.control textarea {
+    border: var(--border);
+    padding: 0.75rem;
+    font-size: 12pt;
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+}
+
+.control input::placeholder,
+.control textarea::placeholder {
+    color: var(--text-color);
+}
+
+.dark .control input::placeholder,
+.dark .control textarea::placeholder {
+    color: var(--background-color);
+}
+
+.control textarea {
+    resize: none;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 1rem 0;
+}
+
+@media screen and (max-width: 900px) {
+    .container {
+        border: 0;
+        margin: 1rem 0;
+    }
+
+    .controls {
+        grid-template-columns: 1fr;
+        grid-gap: 0.5rem;
+    }
+}

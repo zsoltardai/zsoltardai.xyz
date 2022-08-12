@@ -1,0 +1,28 @@
+.squared {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background: none;
+    border-radius: var(--border-radius);
+    border: var(--border);
+    font-weight: 700;
+    font-size: 12pt;
+    text-transform: uppercase;
+}
+
+.circular {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border-radius: 50%;
+    padding: 0.4rem;
+    border: 0;
+}
+
+.circular:hover,
+.squared:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+}

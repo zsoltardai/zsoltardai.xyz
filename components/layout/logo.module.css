@@ -1,0 +1,28 @@
+.logo {
+    font-size: 22pt;
+    font-weight: 700;
+}
+
+.logo:hover {
+    filter: brightness(1.2);
+}
+
+.text {
+    font-family: 'Concert One', cursive;
+}
+
+.dot {
+    font-family: 'Concert One', cursive;
+    color: var(--primary-color);
+}
+
+.logo:hover {
+    cursor: pointer;
+}
+
+
+.box:hover {
+    animation-name: rotate;
+    animation-duration: 0.7s;
+    animation-direction: reverse;
+}

@@ -1,0 +1,116 @@
+import { Fragment, useRef, useContext } from 'react';
+import ContactForm from '../components/contact/contact-form';
+import Notification from '../components/layout/notification';
+import NotificationContext from '../store/notification-context';
+
+export default function Contact() {
+    const notificationContext = useContext(NotificationContext);
+    const notification = notificationContext.notification;
+    const emailRef = useRef();
+    const firstNameRef = useRef();
+    const lastNameRef = useRef();
+    const messageRef = useRef();
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+
+        const email = emailRef.current.value;
+        const firstName = firstNameRef.current.value;
+        const lastName = lastNameRef.current.value;
+        const message = messageRef.current.value;
+
+        if (!email || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email)) {
+            notificationContext.showNotification({
+                status: 'error',
+                title: 'Error',
+                message: 'You did not provide a valid e-mail address!'
+            });
+            return;
+        }
+
+        if (!firstName || firstName.trim() === '') {
+            notificationContext.showNotification({
+                status: 'error',
+                title: 'Error',
+                message: 'You did not provide a valid first name!'
+            });
+            return;
+        }
+
+        if (!lastName || lastName.trim() === '') {
+            notificationContext.showNotification({
+                status: 'error',
+                title: 'Error',
+                message: 'You did not provide a valid last name!'
+            });
+            return;
+        }
+
+        if (!message || message.trim() === '') {
+            notificationContext.showNotification({
+                status: 'error',
+                title: 'Error',
+                message: 'You did not provide a valid message!'
+            });
+            return;
+        }
+
+        const msg = 'Sending message..';
+
+        notificationContext.showNotification({
+            status: 'pending',
+            title: 'Pending',
+            message: msg
+        });
+
+        const contact = { email: email, firstName: firstName, lastName: lastName, message: message };
+        const body = JSON.stringify(contact);
+        const headers = { 'Content-Type': 'application/json', Accept: 'application/json' };
+        fetch('/api/contact', { method: 'POST', body: body, headers: headers })
+            .then(response => {
+                if (response.ok) return response.json();
+                response.json()
+                    .then(data => {
+                       throw new Error(data.message || 'Failed to send message, due to an unknown error!');
+                    });
+            })
+            .then(data => {
+                const message = data.message || 'Message sent successfully!';
+                notificationContext.showNotification({
+                    status: 'success',
+                    title: 'Success',
+                    message: message
+                });
+                emailRef.current.value = '';
+                firstNameRef.current.value = '';
+                lastNameRef.current.value = '';
+                messageRef.current.value = '';
+            })
+            .catch(error => {
+                const message = error.message || 'Failed to send message, due to an unknown reason!';
+                notificationContext.showNotification({
+                    status: 'error',
+                    title: 'Error',
+                    message: message
+                });
+            });
+    };
+
+    const contact = { emailRef, firstNameRef, lastNameRef, messageRef };
+
+    return (
+      <Fragment>
+        <ContactForm onSubmit={onSubmitHandler}
+                     contact={contact}
+        />
+          {
+              notification
+                &&
+              <Notification
+                  status={notification.status}
+                  title={notification.title}
+                  message={notification.message}
+              />
+          }
+      </Fragment>
+    );
+}
