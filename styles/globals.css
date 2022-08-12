@@ -1,5 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+@font-face {
+  font-family: "Concert One";
+  src: url("/ConcertOne-Regular.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/Poppins-Regular.ttf") format('truetype');
+}
 
 :root {
   --primary-color: #027BCE;
