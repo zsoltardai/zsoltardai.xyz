@@ -23,15 +23,13 @@ export default function Register() {
                 title: 'Error',
                 message: data.message
             });
-            return false;
+            return;
         }
         notificationContext.showNotification({
             status: 'success',
             title: 'Success',
             message: data.message
         });
-
-        return true;
     }
     return (
       <Fragment>

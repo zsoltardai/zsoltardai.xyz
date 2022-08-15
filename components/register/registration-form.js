@@ -44,14 +44,13 @@ export default function RegistrationForm(props) {
             return;
         }
 
-        const result = await props.onRegister(email, password, code);
-
-        if (!result) return;
-
         emailRef.current.value = '';
         passwordRef.current.value = '';
         confirmPasswordRef.current.value = '';
         codeRef.current.value = '';
+
+        await props.onRegister(email, password, code);
+
         await router.replace('/administration/login');
     }
     return (
