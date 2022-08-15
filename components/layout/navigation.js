@@ -5,11 +5,13 @@ import Button from '../ui/button';
 import Moon from '../icons/moon';
 import Sun from '../icons/sun';
 import ModeContext from '../../store/mode-context';
+import { signOut, useSession } from 'next-auth/client';
 import styles from './navigation.module.css'
 
 export default function Navigation() {
     const modeContext = useContext(ModeContext);
     const toggleModeHandler = () => (modeContext.toggleMode());
+    const [session, _] = useSession();
     return (
         <header className={styles.header}>
             <Link href='/'>
@@ -34,6 +36,14 @@ export default function Navigation() {
                             Blogs
                         </Link>
                     </li>
+                    {
+                        session &&
+                        (
+                            <li>
+                                <a className={styles.button} onClick={() => signOut()}>Logout</a>
+                            </li>
+                        )
+                    }
                     <li>
                         <Button height='35px' width='35px' circle onClick={toggleModeHandler}>
                             {
