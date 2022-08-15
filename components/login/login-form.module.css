@@ -1,0 +1,57 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    margin: 5vh 0;
+    width: 40vw;
+    align-self: center;
+}
+
+.form h1 {
+    font-size: 24pt;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.control {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.control label {
+    font-size: 12pt;
+    text-transform: uppercase;
+    margin: 10px 0;
+}
+
+.control input {
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 5px 10px;
+    height: 30px;
+    font-size: 12pt;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.actions button {
+    width: 100%;
+    margin: 20px 0;
+}
+
+@media screen and (max-width: 900px) {
+    .form {
+        width: 90vw;
+        margin: 10px 5vw;
+    }
+
+    .form h1 {
+        font-size: 28pt;
+        margin: 20px 0;
+        text-align: center;
+    }
+}
