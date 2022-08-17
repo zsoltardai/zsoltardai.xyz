@@ -1,8 +1,7 @@
 import { Fragment, useContext } from 'react';
-import RegistrationForm from '../../components/register/registration-form';
-import Notification from '../../components/layout/notification';
-import NotificationContext from '../../store/notification-context';
-import styles from '../../styles/administration/register.module.css';
+import RegistrationForm from '../components/register/registration-form';
+import Notification from '../components/layout/notification';
+import NotificationContext from '../store/notification-context';
 
 export default function Register() {
     const notificationContext = useContext(NotificationContext);

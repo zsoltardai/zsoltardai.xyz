@@ -1,10 +1,9 @@
 import { Fragment, useContext } from 'react';
-import NotificationContext from '../../store/notification-context';
-import LoginForm from '../../components/login/login-form';
-import Notification from '../../components/layout/notification';
+import NotificationContext from '../store/notification-context';
+import LoginForm from '../components/login/login-form';
+import Notification from '../components/layout/notification';
 import { signin } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import styles from '../../styles/administration/login.module.css';
 
 export default function Login() {
     const router = useRouter();
