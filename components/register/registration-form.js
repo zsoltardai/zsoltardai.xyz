@@ -51,7 +51,7 @@ export default function RegistrationForm(props) {
 
         await props.onRegister(email, password, code);
 
-        await router.replace('/administration/login');
+        await router.replace('/login');
     }
     return (
       <form className={styles.form} onSubmit={onSubmitHandler}>
