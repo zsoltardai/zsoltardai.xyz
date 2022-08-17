@@ -3,7 +3,7 @@ import { getAllBlogs } from '../../lib/blogs-util';
 
 export default function Blogs({ blogs }) { return <BlogsGrid blogs={blogs} />; }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const blogs = await getAllBlogs();
     return {
         props: {
