@@ -1,15 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import Button from '../ui/button';
 import styles from './poem-form.module.css';
 
 export default function PoemForm({ notificationContext, onPublishPoem }) {
-    const date = new Date();
+    const date = useMemo(() => { return new Date(); }, []);
     const [day, setDay] = useState(date.getDate());
     const [year, setYear] = useState(date.getFullYear());
     const [month, setMonth] = useState(date.getMonth() + 1);
     const [yearSelection, setYearSelection] = useState([]);
     const [daySelection, setDaySelection] = useState([]);
-    const monthLengths = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31};
+    const monthLengths = useMemo(() => {
+        return {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
+    }, []);
     useEffect(() => {
         setYearSelection((function ()
         {
@@ -24,7 +26,7 @@ export default function PoemForm({ notificationContext, onPublishPoem }) {
             { result.push(i); }
             return result;
         })());
-    }, [year, day, month]);
+    }, [date, year, day, month, monthLengths]);
     const titleRef = useRef();
     const contentRef = useRef();
     const authorRef = useRef();
