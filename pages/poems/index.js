@@ -3,11 +3,12 @@ import { getAllPoems } from '../../lib/poems-util';
 
 export default function Poems({ poems }) { return <PoemsGrid poems={poems} />; }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const poems = await getAllPoems();
     return {
         props: {
             poems: poems
-        }
+        },
+        revalidate: 60
     };
 }
