@@ -2,7 +2,7 @@ import { LinearProgress } from '@mui/material';
 import styles from './education.module.css';
 
 export default function Education() {
-    const total = 210; const current = 180;
+    const total = 210; const current = 182;
     let percentage  = (current/total) * 100;
     return (
       <div className={styles.container}>
