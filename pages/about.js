@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import Introduction from '../components/about/introduction';
 import Hobbies from '../components/about/hobbies';
 import Education from '../components/about/education';
@@ -21,13 +20,13 @@ export function getWelcomingPhrase(hour) {
 export default function About() {
     const date = new Date();
     return (
-        <Fragment>
+        <>
             <div className={styles.container}>
                 <h1>{ getWelcomingPhrase(new Date(date).getHours()) }</h1>
                 <Introduction />
                 <Education />
                 <Hobbies />
             </div>
-        </Fragment>
+        </>
     );
 }
