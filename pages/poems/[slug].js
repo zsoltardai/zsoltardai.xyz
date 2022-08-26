@@ -1,16 +1,12 @@
 import { Fragment } from 'react';
 import ReactMarkdown from 'react-markdown';
-import Back from '../../components/icons/back';
-import { useRouter } from 'next/router';
 import { getAllPoems, getPoemBySlug } from '../../lib/poems-util';
 import styles from '../../styles/poem.module.css';
 
 export default function Poem({ poem }) {
-    const router = useRouter();
     const { title, content, author, date } = poem;
     const formattedDate = new Date(date).toLocaleDateString('en-US',
         { day: 'numeric', month: 'long', year: 'numeric' });
-    const backButtonClickHandler = () => router.back();
     return (
         <Fragment>
             <div className={styles.container}>
@@ -27,9 +23,6 @@ export default function Poem({ poem }) {
                 </div>
                 <div>
                     <ReactMarkdown>{content}</ReactMarkdown>
-                </div>
-                <div onClick={backButtonClickHandler} className={styles.back}>
-                    <Back color='var(--primary-color)' />
                 </div>
             </div>
         </Fragment>
