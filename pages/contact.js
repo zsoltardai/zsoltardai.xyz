@@ -1,4 +1,5 @@
-import { Fragment, useRef, useContext } from 'react';
+import Head from 'next/head';
+import { useRef, useContext } from 'react';
 import ContactForm from '../components/contact/contact-form';
 import Notification from '../components/layout/notification';
 import NotificationContext from '../store/notification-context';
@@ -98,7 +99,11 @@ export default function Contact() {
     const contact = { emailRef, firstNameRef, lastNameRef, messageRef };
 
     return (
-      <Fragment>
+      <>
+          <Head>
+              <title>Contact me</title>
+              <meta name='description' content='Send me a message to contact me.' />
+          </Head>
         <ContactForm onSubmit={onSubmitHandler}
                      contact={contact}
         />
@@ -111,6 +116,6 @@ export default function Contact() {
                   message={notification.message}
               />
           }
-      </Fragment>
+      </>
     );
 }

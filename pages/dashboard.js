@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useContext } from 'react';
 import { getSession } from 'next-auth/client';
 import PoemForm from '../components/dashboard/poem-form';
@@ -38,6 +39,10 @@ export default function Dashboard() {
     }
     return (
         <div className={styles.container}>
+            <Head>
+                <title>Dashboard</title>
+                <meta name='description' content='On this page you can add blog posts and poems.' />
+            </Head>
             <PoemForm notificationContext={notificationContext} onPublishPoem={publishPoemHandler} />
             {
                 notification

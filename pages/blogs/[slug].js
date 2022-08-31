@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import Head from 'next/head';
 import ReactMarkdown from 'react-markdown';
 import renderer from '../../lib/renderer-util';
 import Back from '../../components/icons/back';
@@ -13,7 +13,11 @@ export default function Blog({ blog }) {
         { day: 'numeric', month: 'long', year: 'numeric' });
     const backButtonClickHandler = () => router.back();
     return (
-        <Fragment>
+        <>
+            <Head>
+                <title>{title}</title>
+                <meta name='description' content={content} />
+            </Head>
             <div className={styles.container}>
                 <h1>{title}</h1>
                 <div className={styles.meta}>
@@ -33,7 +37,7 @@ export default function Blog({ blog }) {
                     <Back color='var(--primary-color)' />
                 </div>
             </div>
-        </Fragment>
+        </>
     );
 }
 

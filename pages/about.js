@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Introduction from '../components/about/introduction';
 import Hobbies from '../components/about/hobbies';
 import Education from '../components/about/education';
@@ -21,6 +22,10 @@ export default function About() {
     const date = new Date();
     return (
         <>
+            <Head>
+                <title>About me</title>
+                <meta name='description' content='This is an introduction page.' />
+            </Head>
             <div className={styles.container}>
                 <h1>{ getWelcomingPhrase(new Date(date).getHours()) }</h1>
                 <Introduction />

@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import Head from 'next/head';
 import ReactMarkdown from 'react-markdown';
 import { getAllPoems, getPoemBySlug } from '../../lib/poems-util';
 import styles from '../../styles/poem.module.css';
@@ -8,7 +8,11 @@ export default function Poem({ poem }) {
     const formattedDate = new Date(date).toLocaleDateString('en-US',
         { day: 'numeric', month: 'long', year: 'numeric' });
     return (
-        <Fragment>
+        <>
+            <Head>
+                <title>{title}</title>
+                <meta name='description' content={content} />
+            </Head>
             <div className={styles.container}>
                 <h2>{title}</h2>
                 <div className={styles.meta}>
@@ -25,7 +29,7 @@ export default function Poem({ poem }) {
                     <ReactMarkdown>{content}</ReactMarkdown>
                 </div>
             </div>
-        </Fragment>
+        </>
     );
 }
 
