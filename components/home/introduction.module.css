@@ -7,9 +7,9 @@
 }
 
 .h1 {
-    font-family: 'Arial Black', cursive;
     font-size: 36pt;
     text-align: justify;
+    font-weight: 600;
     background: none;
     margin: 2rem 0 1rem 0;
     letter-spacing: 5px;
