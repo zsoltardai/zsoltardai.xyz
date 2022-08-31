@@ -1,12 +1,12 @@
 .container {
     display: flex;
-    position: relative;
+    position: absolute;
+    bottom: 20px;
+    align-self: center;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    margin: 1rem 0;
     width: 20%;
-    align-self: center;
 }
 
 @media screen and (max-width: 900px) {
