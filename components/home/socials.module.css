@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    position: absolute;
+    position: relative;
     bottom: 20px;
     align-self: center;
     flex-direction: row;
