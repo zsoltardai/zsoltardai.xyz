@@ -50,6 +50,7 @@ export async function getStaticProps(context) {
         props: {
             poem: poem,
             notFound: (!poem.hasOwnProperty('title'))
-        }
+        },
+        revalidate: 60
     };
 }

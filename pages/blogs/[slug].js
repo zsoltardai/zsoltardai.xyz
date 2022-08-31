@@ -58,6 +58,7 @@ export async function getStaticProps(context) {
         props: {
             blog: blog,
             notFound: (!blog.hasOwnProperty('title'))
-        }
+        },
+        revalidate: 60
     };
 }
