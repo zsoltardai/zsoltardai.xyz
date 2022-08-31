@@ -8,7 +8,7 @@ export default function Home({ blogs }) {
       <>
         <Introduction />
         <Skills />
-        <FeaturedBlogs featuredBlogs={[]} />
+        <FeaturedBlogs featuredBlogs={blogs} />
         <Socials />
       </>
     );
