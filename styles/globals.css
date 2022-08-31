@@ -11,7 +11,7 @@
 :root {
   --primary-color: #027BCE;
   --border-radius: 5px;
-  --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  --box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
   --background-color: #FFFFFF;
   --text-color: #000000;
   --border: 1px solid rgba(0, 0, 0, 0.2);
@@ -44,7 +44,7 @@ a {
 }
 
 .dark * {
-  --box-shadow: rgba(255, 255, 255, 0.2) 0px 7px 29px 0px;
+  --box-shadow: rgba(255, 255, 255, 0.1) 0px 0px 0px 1px;
   --background-color: #000000;
   --text-color: #FFFFFF;
   --border: 1px solid rgba(255, 255, 255, 0.2);
