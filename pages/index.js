@@ -10,6 +10,7 @@ export default function Home({ blogs }) {
         <Head>
             <title>Home</title>
             <meta name='description' content='Hi, my name is Zsolt, and I&apos;m a frontend developer.' />
+            <meta name='canonical' content='https://zsoltardai.xyz' />
         </Head>
         <Introduction />
         <Skills />
