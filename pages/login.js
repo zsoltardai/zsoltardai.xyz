@@ -5,6 +5,7 @@ import {useRef} from "react";
 import useSession from "../hooks/useSession";
 import getSession from "../lib/auth/getSession";
 import {useRouter} from "next/router";
+import Link from "next/link";
 
 export default function Login() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function Login() {
         <div>
           <p className={styles.question}>
             Don&apos;t you have an account? Register
-            <a href="/register"> here.</a>
+            <Link href="/register"> here.</Link>
           </p>
         </div>
       </form>
