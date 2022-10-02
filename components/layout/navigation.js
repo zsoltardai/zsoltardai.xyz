@@ -1,17 +1,17 @@
-import { useContext } from 'react';
+import {useContext, useEffect} from 'react';
 import Link from 'next/link';
 import Logo from './logo';
 import Button from '../ui/button';
 import Moon from '../icons/moon';
 import Sun from '../icons/sun';
 import ModeContext from '../../store/mode-context';
-import { signOut, useSession } from 'next-auth/client';
 import styles from './navigation.module.css'
+import useSession from "../../hooks/useSession";
 
 export default function Navigation() {
     const modeContext = useContext(ModeContext);
     const toggleModeHandler = () => (modeContext.toggleMode());
-    const [session, _] = useSession();
+    const { session, logout } = useSession();
     return (
         <header className={styles.header}>
             <Link href='/'>
@@ -37,10 +37,20 @@ export default function Navigation() {
                         </Link>
                     </li>
                     {
-                        session &&
+                        (session) ?
+                        (
+                            <>
+                                <li>
+                                    <Link href="/dashboard">Dashboard</Link>
+                                </li>
+                                <li>
+                                    <a onClick={() => logout()}>Logout</a>
+                                </li>
+                            </>
+                        ) :
                         (
                             <li>
-                                <a className={styles.button} onClick={() => signOut()}>Logout</a>
+                                <Link href="/login">Login</Link>
                             </li>
                         )
                     }
@@ -55,11 +65,16 @@ export default function Navigation() {
                             }
                         </Button>
                     </li>
-                    <li>
-                        <Button height='10px' width='180px' href='/contact'>
-                            Contact me
-                        </Button>
-                    </li>
+                    {
+                        (!session) &&
+                        (
+                            <li>
+                                <Button height='10px' width='180px' href='/contact'>
+                                    Contact me
+                                </Button>
+                            </li>
+                        )
+                    }
                 </ul>
             </nav>
         </header>

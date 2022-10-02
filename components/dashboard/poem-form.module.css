@@ -12,9 +12,9 @@
 }
 
 .group {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-gap: 1rem;
     margin: 0.5rem 0;
 }
 

@@ -1,39 +1,43 @@
-import { connect, find } from '../../../lib/db-util';
+import {MongoClient} from "mongodb";
 
 export default async function handler(req, res) {
+    let client; let message; let blog;
+    const ALLOWED = ['GET'];
+
+    if (ALLOWED.includes(req.method)) {
+        try {
+            client = await MongoClient.connect(process.env.MONGODB);
+        } catch (error) {
+            message = 'Failed to connect to the database, try again later!';
+            res.status(500).send(message);
+            return;
+        }
+    }
+
     if (req.method === 'GET') {
         const { slug } = req.query;
 
-        let client;
-
         try {
-            client = await connect();
-        }
-        catch (error) {
-            res.status(500).json({ message: error.message || 'Failed to connect to the database!' });
+            blog = await client.db().collection('blogs').findOne({ slug });
+        } catch (error) {
+            message = 'Failed to connect to the database, try again later!';
+            res.status(500).send(message);
+            await client.close();
             return;
         }
 
-        try {
-            const blogs = await find(client, 'blogs', { slug: slug }, { date: -1 });
-
-            if (!blogs || blogs.length !== 1) {
-                res.status(404).json({ message: 'The requested resource is not found!' });
-                await client.close();
-                return;
-            }
-
-            const blog = blogs[0];
-
-            res.status(200).json({ blog: blog });
-        }
-        catch (error) {
-            res.status(500).json({ message: error.message || 'Failed to fetch blogs from the database!' });
+        if (!blog) {
+            message = 'There is no blog with the provided slug!';
+            res.status(404).send(message);
+            await client.close();
+            return;
         }
 
+        res.status(200).json(blog);
         await client.close();
         return;
     }
 
-    res.status(400).json({ message: 'Only GET requests are allowed!' });
+    message = 'Only GET requests are allowed!';
+    res.status(405).send(message);
 }

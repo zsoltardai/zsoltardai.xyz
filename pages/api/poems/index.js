@@ -1,98 +1,100 @@
-import { v4 as uuid } from 'uuid';
-import { getSession } from 'next-auth/client';
-import { connect, find, insert } from '../../../lib/db-util';
+import getPoem from "../../../lib/poems/getPoem";
+import getSession from "../../../lib/auth/getSession";
+import createSlug from "../../../lib/strings/createSlug";
+import connect from "../../../lib/db/connect";
+import crypto from "crypto";
 
 export default async function handler(req, res) {
+    let client; let message;
+
     if (req.method === 'GET') {
-        let client;
-
-        try {
-            client = await connect();
-        } catch (error) {
-            res.status(500).json({ message: 'Failed to connect to the database!' });
-            return;
-        }
-
-        try {
-            const poems = await find(client, 'poems', {}, { date: -1 });
-            res.status(200).json({ poems: poems });
-        } catch (error) {
-            res.status(500).json({ message: 'Failed to fetch poems!' });
-        }
-
-        await client.close();
-
+        const poems = await getPoem();
+        res.status(200).json(poems);
         return;
     }
 
     if (req.method === 'POST') {
+        const creator = getSession({req, res});
 
-        const session = await getSession({ req: req });
-
-        if (!session) {
-            res.status(403).json({ message: 'Not authorized!' });
+        if (!creator) {
+            message = 'Unauthorized!';
+            res.status(403).send(message);
             return;
         }
 
-        const { title, content, date, author } = req.body;
+        delete creator['iat'];
+        delete creator['exp'];
+
+        const { title, content, date } = req.body;
 
         if (!title || title.trim() === '') {
-            res.status(400).json({ message: 'Your request did not contain a valid title!' });
+            message = 'The provided title was invalid!';
+            res.status(400).send(message);
             return;
         }
 
         if (!content || content.trim() === '') {
-            res.status(400).json({ message: 'Your request did not contain a valid content!' });
+            message = 'The provided content was invalid!';
+            res.status(400).send(message);
             return;
         }
 
-        if (!date || date.trim() === '') {
-            res.status(400).json({ message: 'Your request did not contain a valid date!' });
+        if (!(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/).test(date)) {
+            message = 'The provided date was invalid!';
+            res.status(400).send(message);
             return;
         }
 
-        if (!author || author.trim() === '') {
-            res.status(400).json({ message: 'Your request did not contain a valid author!' });
+        const slug = createSlug(title);
+
+        const id = crypto.randomBytes(20).toString('hex');
+
+        const poem = {
+            _id: id,
+            slug,
+            title,
+            content,
+            date,
+            author: creator,
+        };
+
+        client = await connect();
+
+        if (!client) {
+            message = 'Failed to connect to the database, try again later!';
+            res.status(500).send(message);
             return;
         }
-
-        const _id = uuid();
-
-        let slug = title.replace(/[^a-zA-Z ]/g, "").toLowerCase().replaceAll(' ', '-');
-
-        const formattedDate = new Date(date).toLocaleDateString();
-
-        let client;
 
         try {
-            client = await connect();
+            const poem = await client.db().collection('poems').findOne({slug});
+            if (poem) {
+                message = 'A poem already exists with this title!';
+                res.status(409).send(message);
+                await client.close();
+                return;
+            }
         } catch (error) {
-            res.status(500).json({ message: 'Failed to connect to the database!' });
-            return;
-        }
-
-        try {
-            const poems = await find(client, 'poems', { slug: slug });
-            if (poems.length > 0) { slug += ('-' + _id); }
-        } catch (error) {
-
-        }
-
-        const poem = { _id: _id, title: title, content: content, date: formattedDate,
-            author: author, slug: slug, email: session.user.email };
-
-        try {
-            await insert(client, 'poems', poem);
-        } catch (error) {
-            res.status(500).json({ message: 'Failed to insert the document into the collection!' });
+            message = 'Failed to connect to the database, try again later!';
+            res.status(500).send(message);
             await client.close();
             return;
         }
 
-        res.status(201).json({ message: 'Successfully published the poem!' });
+        try {
+            await client.db().collection('poems').insertOne(poem);
+        } catch (error) {
+            message = 'Failed to insert poem to the collection, try again later!';
+            res.status(500).send(message);
+            await client.close();
+            return;
+        }
+
+        res.status(201).json(poem);
         await client.close();
         return;
     }
 
-    res.status(400).json({ message: 'Only GET and POST requests are allowed!' });
+    message = 'Only GET and POST requests are allowed!';
+    res.status(405).send(message);
 }

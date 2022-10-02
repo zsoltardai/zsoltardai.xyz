@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import PoemsGrid from '../../components/poem/poems-grid';
-import { getAllPoems } from '../../lib/poems-util';
+import getPoem from "../../lib/poems/getPoem";
 
 export default function Poems({ poems }) {
     return (
@@ -15,11 +15,6 @@ export default function Poems({ poems }) {
 }
 
 export async function getStaticProps() {
-    const poems = await getAllPoems();
-    return {
-        props: {
-            poems: poems
-        },
-        revalidate: 60
-    };
+    const poems = await getPoem();
+    return {props: {poems: poems}, revalidate: 60};
 }

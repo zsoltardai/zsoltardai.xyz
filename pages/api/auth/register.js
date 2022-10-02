@@ -1,88 +1,117 @@
-import { connect, find, insert, _delete } from '../../../lib/db-util';
-import { hash } from '../../../lib/auth-util';
+import {MongoClient} from "mongodb";
+import crypto from 'crypto';
+import md5 from 'md5';
 
 export default async function handler(req, res) {
-    if (req.method === 'POST') {
+  let client; let message; let user;
+  const ALLOWED = ['POST'];
 
-        const { email, password, code } = req.body;
+  if (ALLOWED.includes(req.method)) {
+    try {
+      client = await MongoClient.connect(process.env.MONGODB);
+    } catch (error) {
+      message = 'Failed to connect to the database, try again later!';
+      res.status(500).send(message);
+      return;
+    }
+  }
 
-        if (!email || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email)) {
-            res.status(400).json({ message: 'The provided email address was not valid!' });
-            return;
-        }
+  if (req.method === 'POST') {
 
-        if (!password || !(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).test(password)) {
-            res.status(400).json({ message: 'The provided password was not valid!' });
-            return;
-        }
+    const { firstname, lastname, email, password, code } = req.body;
 
-        let client;
-
-        try {
-            client = await connect();
-        } catch (error) {
-            res.status(500).json({ message: 'Failed to connect to the database!' });
-            return;
-        }
-
-        let _code;
-
-        try {
-            const codes = await find(client, 'codes', { code: code });
-            _code = codes[0];
-        } catch(error) {
-            res.status(500).json({ message: 'Failed to fetch codes from the collection!' });
-            await client.close();
-            return;
-        }
-
-        if (!_code) {
-            res.status(403).json({ message: 'The registration code you provided was invalid!' });
-            await client.close();
-            return;
-        }
-
-        try {
-            await _delete(client, 'codes', _code);
-        } catch(error) {
-            res.status(500).json({ message: 'Failed to delete the code from the collection!' });
-            await client.close();
-            return;
-        }
-
-        let user;
-
-        try {
-            const users = await find(client, 'users', { email: email });
-            user = users[0];
-        } catch (error) {
-            res.status(500).json({ message: 'Failed to fetch users from the collection!' });
-            await client.close();
-            return;
-        }
-
-        if (user) {
-            res.status(409).json({ message: 'User already exists with this email address!' });
-            await client.close();
-            return;
-        }
-
-        const hashedPassword = hash(password);
-
-        user = { email: email, password: hashedPassword };
-
-        try {
-            await insert(client, 'users',  user);
-        } catch (error) {
-            res.status(500).json({ message: 'Failed to insert the user to the collection!' });
-            await client.close();
-            return;
-        }
-
-        res.status(201).json({ message: 'User have been created successfully!' });
-        await client.close();
-        return;
+    if (!firstname || firstname.trim() === '') {
+      message = 'The provided firstname is invalid!';
+      res.status(400).send(message);
+      await client.close();
+      return;
     }
 
-    res.status(400).json({ message: 'Only POST requests are allowed!' });
+    if (!lastname || lastname.trim() === '') {
+      message = 'The provided lastname is invalid!';
+      res.status(400).send(message);
+      await client.close();
+      return;
+    }
+
+    if (!(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/).test(email)) {
+      message = 'The provided e-mail address is invalid!';
+      res.status(400).send(message);
+      await client.close();
+      return;
+    }
+
+    if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).test(password)) {
+      message = 'The provided password is invalid!';
+      res.status(400).send(message);
+      await client.close();
+      return;
+    }
+
+    if (!code || code.trim() === '') {
+      message = 'You did not provide a valid registration code!';
+      res.status(400).send(message);
+      await client.close();
+      return;
+    }
+
+    try {
+      const {deletedCount} = await client.db().collection('codes').deleteOne({code});
+      if (deletedCount !== 1) {
+        message = 'The provided registration code was invalid!';
+        res.status(400).send(message);
+        await client.close();
+        return;
+      }
+    } catch (error) {
+      message = 'Failed to delete registration code from the database, try again later!';
+      res.status(500).send(message);
+      await client.close();
+      return;
+    }
+
+    try {
+      user = await client.db().collection('users').findOne({ email });
+    } catch (error) {
+      message = 'Failed to fetch users from the database!';
+      res.status(500).send(message);
+      await client.close();
+      return;
+    }
+
+    if (user) {
+      message = 'User already exists with the provided e-mail address!';
+      res.status(409).send(message);
+      await client.close();
+      return;
+    }
+
+    const id = crypto.randomBytes(20).toString('base64');
+
+    user = {
+      _id: id,
+      email,
+      firstname,
+      lastname,
+      password: md5(password)
+    };
+
+    try {
+      await client.db().collection('users').insertOne({...user});
+    } catch (error) {
+      message = 'Failed to insert the user to the database!';
+      res.status(500).send(message);
+      await client.close();
+      return;
+    }
+
+    delete user['password'];
+
+    res.status(201).json(user);
+    await client.close();
+    return;
+  }
+
+  message = 'Only POST requests are allowed!';
+  res.status(405).send(message);
 }

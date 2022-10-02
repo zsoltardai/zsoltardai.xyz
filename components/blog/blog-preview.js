@@ -15,7 +15,7 @@ export default function BlogPreview({ blog }) {
                   <div className={styles.header}>
                         <span className={styles.left}>
                             <span>By</span>
-                            <span className={styles.highlight}>{author}</span>
+                            <span className={styles.highlight}>{author.firstname} {author.lastname}</span>
                         </span>
                         <span className={styles.right}>
                             <span>on</span>

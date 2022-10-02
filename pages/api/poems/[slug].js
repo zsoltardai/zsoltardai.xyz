@@ -1,41 +1,37 @@
-import { connect, find } from '../../../lib/db-util';
+import {MongoClient} from "mongodb";
+import getPoem from "../../../lib/poems/getPoem";
 
 export default async function handler(req, res) {
-    if (req.method === 'GET') {
+    let client; let message;
+    const ALLOWED = ['GET'];
 
+    if (ALLOWED.includes(req.method)) {
+        try {
+            client = await MongoClient.connect(process.env.MONGODB);
+        } catch (error) {
+            message = 'Failed to connect to the database, try again later!';
+            res.status(500).send(message);
+            return;
+        }
+    }
+
+    if (req.method === 'GET') {
         const { slug } = req.query;
 
-        let client;
+        const poem = await getPoem(slug);
 
-        try {
-            client = await connect();
-        }
-        catch (error) {
-            res.status(500).json({ message: error.message || 'Failed to connect to the database!' });
+        if (!poem) {
+            message = 'There is no poem with the provided slug!';
+            res.status(404).send(message);
+            await client.close();
             return;
         }
 
-        try {
-            const poems = await find(client, 'poems', { slug: slug }, { date: -1 });
-
-            if (!poems || poems.length !== 1) {
-                res.status(404).json({ message: 'The requested resource is not found!' });
-                await client.close();
-                return;
-            }
-
-            const poem = poems[0];
-
-            res.status(200).json({ poem: poem });
-        }
-        catch (error) {
-            res.status(500).json({ message: error.message || 'Failed to fetch poems from the database!' });
-        }
-
+        res.status(200).json(poem);
         await client.close();
-
         return;
     }
 
-    res.status(400).json({ message: 'Only GET requests are allowed!' });
+    message = 'Only GET requests are allowed!';
+    res.status(405).send(message);
 }

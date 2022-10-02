@@ -21,12 +21,10 @@ export default function Notification({ title, message, status }) {
 
     const cssClasses = `${styles.notification} ${statusClasses}`;
 
-
-
     return (
         <div className={cssClasses}>
-            <notification className={styles.left}>{icon}{title}</notification>
-            <notification className={styles.right}>{message}</notification>
+            <div className={`${styles.left} notification`}>{icon}{title}</div>
+            <div className={`${styles.right} notification`}>{message}</div>
         </div>
     );
 

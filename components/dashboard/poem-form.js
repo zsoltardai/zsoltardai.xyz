@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 import Button from '../ui/button';
 import styles from './poem-form.module.css';
 
-export default function PoemForm({ notificationContext, onPublishPoem }) {
+export default function PoemForm({notificationContext, onPublishPoem}) {
     const date = useMemo(() => { return new Date(); }, []);
     const [day, setDay] = useState(date.getDate());
     const [year, setYear] = useState(date.getFullYear());
@@ -29,15 +29,12 @@ export default function PoemForm({ notificationContext, onPublishPoem }) {
     }, [date, year, day, month, monthLengths]);
     const titleRef = useRef();
     const contentRef = useRef();
-    const authorRef = useRef();
     const submitHandler = async (event) => {
         event.preventDefault();
 
         const title = titleRef.current.value;
 
         const content = contentRef.current.value;
-
-        const author = authorRef.current.value;
 
         const _date = `${year}-${month.length === 1 ? '0' + month : month}-${day.length === 1 ? '0' + day : day}`;
 
@@ -60,15 +57,6 @@ export default function PoemForm({ notificationContext, onPublishPoem }) {
             return;
         }
 
-        if (!author || author.trim() === '') {
-            notificationContext.showNotification({
-                status: 'error',
-                title: 'Error',
-                message: 'The provided author was invalid!'
-            });
-            return;
-        }
-
         if (!_date || _date.trim() === '') {
             notificationContext.showNotification({
                 status: 'error',
@@ -78,12 +66,11 @@ export default function PoemForm({ notificationContext, onPublishPoem }) {
             return;
         }
 
-        const result = await onPublishPoem(title, content, author, _date);
+        const result = await onPublishPoem(title, content, _date);
 
         if (result) {
             titleRef.current.value = '';
             contentRef.current.value = '';
-            authorRef.current.value = '';
             setYear(date.getFullYear());
             setMonth(date.getMonth() + 1);
             setDay(date.getDate());
@@ -102,11 +89,6 @@ export default function PoemForm({ notificationContext, onPublishPoem }) {
               <textarea id='content' ref={contentRef}
                         placeholder='Body of the poem'>
               </textarea>
-          </div>
-          <div className={styles.control}>
-              <label htmlFor='author'>Author</label>
-              <input id='author' type='text' ref={authorRef}
-                     placeholder='Author of the poem' />
           </div>
           <div className={styles.group}>
               <div className={styles.control}>

@@ -16,7 +16,7 @@ export default function PoemPreview({ poem }) {
                         <div className={styles.meta}>
                     <span>
                         Written by
-                        <span className={styles.highlighted}> {author}</span>
+                        <span className={styles.highlighted}> {author.firstname} {author.lastname}</span>
                     </span>
                             <span>
                         on

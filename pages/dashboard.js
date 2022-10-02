@@ -1,23 +1,23 @@
 import Head from 'next/head';
-import { useContext } from 'react';
-import { getSession } from 'next-auth/client';
+import {useContext} from 'react';
 import PoemForm from '../components/dashboard/poem-form';
 import NotificationContext from '../store/notification-context';
 import Notification from '../components/layout/notification';
 import styles from '../styles/dashboard.module.css';
+import getSession from "../lib/auth/getSession";
 
 export default function Dashboard() {
     const notificationContext = useContext(NotificationContext);
     const notification = notificationContext.notification;
-    const publishPoemHandler = async (title, content, author, date) => {
+    const publishPoemHandler = async (title, content, date) => {
         notificationContext.showNotification({
             status: 'pending',
             title: 'Pending',
             message: 'Your poem is being published...'
         });
-
+        date = new Date(date).toISOString();
         const headers = { 'Content-Type': 'application/json', Accept: 'application/json' };
-        const body = JSON.stringify({ title: title, content: content, author: author, date: date });
+        const body = JSON.stringify({ title, content, date });
         const response = await fetch('/api/poems', { method: 'POST', headers: headers, body: body });
         const data = await response.json();
         if (!response.ok) {

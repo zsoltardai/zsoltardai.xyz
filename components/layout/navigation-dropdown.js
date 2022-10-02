@@ -1,17 +1,17 @@
-import { useContext, useState, useEffect } from 'react';
+import {useContext} from 'react';
 import Link from 'next/link';
 import Switch from '../ui/switch';
 import ModeContext from '../../store/mode-context';
 import Sun from '../icons/sun';
 import Moon from '../icons/moon';
-import { useSession, signOut } from 'next-auth/client';
-import Button from '../ui/button';
 import styles from './navigation-dropdown.module.css';
+import useSession from "../../hooks/useSession";
+import Button from "../ui/button";
 
 export default function NavigationDropdown() {
     const modeContext = useContext(ModeContext);
     const toggleModeHandler = () => (modeContext.toggleMode());
-    const [session, _] = useSession();
+    const { loading, session, logout } = useSession();
     return (
       <nav className={styles.nav}>
         <ul>
@@ -28,10 +28,22 @@ export default function NavigationDropdown() {
                 <Link href='/contact'>Contact</Link>
             </li>
             {
-                session &&
+               (!loading && session) ?
+                (
+                    <>
+                        <li>
+                            <Link href="/dashboard">Dashboard</Link>
+                        </li>
+                        <li>
+                            <a onClick={() => logout()}>Logout</a>
+                        </li>
+                    </>
+                ) :
                 (
                     <li>
-                        <a onClick={() => signOut()}>Logout</a>
+                       <Button href="/login">
+                           Login
+                       </Button>
                     </li>
                 )
             }

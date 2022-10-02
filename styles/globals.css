@@ -34,13 +34,14 @@
   color: var(--text-color);
 }
 
-notification {
+.notification {
   background: none;
   color: var(--text-white)
 }
 
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 
 .dark * {
@@ -51,7 +52,7 @@ a {
   --tag-background: #7C7F7A;
 }
 
-.dark notification {
+.dark .notification {
   background: none;
 }
 

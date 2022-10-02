@@ -1,17 +1,13 @@
 import Head from 'next/head';
 import ReactMarkdown from 'react-markdown';
-import renderer from '../../lib/renderer-util';
-import Back from '../../components/icons/back';
-import { useRouter } from 'next/router';
-import { getAllBlogs, getBlogBySlug } from '../../lib/blogs-util';
+import renderer from '../../lib/renderer';
+import getBlog from "../../lib/blogs/getBlog";
 import styles from '../../styles/blog.module.css';
 
 export default function Blog({ blog }) {
-    const router = useRouter();
     const { title, content, author, date } = blog;
     const formattedDate = new Date(date).toLocaleDateString('en-US',
         { day: 'numeric', month: 'long', year: 'numeric' });
-    const backButtonClickHandler = () => router.back();
     return (
         <>
             <Head>
@@ -22,19 +18,24 @@ export default function Blog({ blog }) {
                 <h1>{title}</h1>
                 <div className={styles.meta}>
                     <span>
-                        <span>Posted by</span>
-                        <span className={styles.highlighted}> {author}</span>
+                        <span>Posted by </span>
+                        <span className={styles.highlighted}>
+                            {author.firstname} {author.lastname}
+                        </span>
                     </span>
                     <span>
-                        <span>on</span>
-                        <time className={styles.highlighted}> {formattedDate}</time>
+                        <span>on </span>
+                        <time className={styles.highlighted}>
+                            {formattedDate}
+                        </time>
                     </span>
                 </div>
                 <div>
-                    <ReactMarkdown components={renderer}>{content}</ReactMarkdown>
-                </div>
-                <div onClick={backButtonClickHandler} className={styles.back}>
-                    <Back color='var(--primary-color)' />
+                    <ReactMarkdown
+                        components={renderer}
+                    >
+                        {content}
+                    </ReactMarkdown>
                 </div>
             </div>
         </>
@@ -42,23 +43,14 @@ export default function Blog({ blog }) {
 }
 
 export async function getStaticPaths() {
-    const blogs = await getAllBlogs();
+    const blogs = await getBlog();
     const paths = blogs.map(blog => ({ params: { slug: blog.slug } }));
-    return {
-        paths: paths,
-        fallback: false
-    };
+    return {paths: paths,fallback: false};
 }
 
 export async function getStaticProps(context) {
     const { params } = context;
     const { slug } = params;
-    let blog = await getBlogBySlug(slug);
-    return {
-        props: {
-            blog: blog,
-            notFound: (!blog.hasOwnProperty('title'))
-        },
-        revalidate: 60
-    };
+    let blog = await getBlog(slug);
+    return {props: {blog: blog, notFound: !blog}, revalidate: 60};
 }
