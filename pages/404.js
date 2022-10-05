@@ -24,7 +24,7 @@ export default function NotFound() {
               It looks like the page you are looking for does not exist.
               Use the button bellow to get back to safety.
           </small>
-          <Button href='/'>Go back</Button>
+          <Button href='/' title="Go back" />
         </div>
     );
 }

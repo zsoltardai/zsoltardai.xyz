@@ -104,17 +104,15 @@ export default function Contact() {
               <title>Contact me</title>
               <meta name='description' content='Send me a message to contact me.' />
           </Head>
-        <ContactForm onSubmit={onSubmitHandler}
-                     contact={contact}
-        />
+        <ContactForm onSubmit={onSubmitHandler} contact={contact}/>
           {
-              notification
-                &&
-              <Notification
-                  status={notification.status}
-                  title={notification.title}
-                  message={notification.message}
-              />
+              notification && (
+                  <Notification
+                      status={notification.status}
+                      title={notification.title}
+                      message={notification.message}
+                />
+              )
           }
       </>
     );

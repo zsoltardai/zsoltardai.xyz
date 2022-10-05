@@ -1,11 +1,17 @@
 import getSession from "../lib/auth/getSession";
 import Input from "../components/ui/input";
 import Button from "../components/ui/button";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import styles from '../styles/register.module.css';
 import useSession from "../hooks/useSession";
 import {useRouter} from "next/router";
 import Link from "next/link";
+import Text from "../components/ui/text";
+import Person from "../components/icons/person";
+import Envelope from "../components/icons/envelope";
+import Secret from "../components/icons/secret";
+import Eye from "../components/icons/eye";
+import EyeBlind from "../components/icons/eye-blind";
 
 export default function Register() {
   const router = useRouter();
@@ -16,6 +22,8 @@ export default function Register() {
   const confirmPasswordRef = useRef();
   const codeRef = useRef();
   const { register } = useSession();
+  const [passwordHidden, setPasswordHidden] = useState(true);
+  const [confirmPasswordHidden, setConfirmPasswordHidden] = useState(true);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const firstname = firstnameRef.current.value;
@@ -30,49 +38,51 @@ export default function Register() {
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h2>Register</h2>
+        <Text variant="h1" marginBottom={16}>Register</Text>
         <div className={styles.grid}>
           <Input
-              label="Firstname"
-              id="firstname"
-              innerRef={firstnameRef}
+              ref={firstnameRef}
               placeholder="e.g. Jon"
+              marginBottom={16}
+              Icon={Person}
           />
           <Input
-              label="Lastname"
-              id="lastname"
-              innerRef={lastnameRef}
+              ref={lastnameRef}
               placeholder="e.g. Johnson"
+              marginBottom={16}
+              Icon={Person}
           />
           <Input
-              label="E-mail"
-              id="email"
-              innerRef={emailRef}
+              ref={emailRef}
               placeholder="e.g. example.user@email.com"
+              marginBottom={16}
+              Icon={Envelope}
           />
           <Input
-              label="Code"
-              id="code"
-              innerRef={codeRef}
+              ref={codeRef}
               type="password"
               placeholder="&bull;&bull;&bull;&bull;&bull;&bull;"
+              marginBottom={16}
+              Icon={Secret}
           />
           <Input
-              label="Password"
-              id="password"
-              innerRef={passwordRef}
-              type="password"
+              ref={passwordRef}
+              type={passwordHidden ? "password" : "text"}
               placeholder="&bull;&bull;&bull;&bull;&bull;&bull;"
+              marginBottom={16}
+              Icon={passwordHidden ? Eye : EyeBlind}
+              onClickIcon={() => setPasswordHidden(previous => !previous)}
           />
           <Input
-              label="Confirm password"
-              id="confirmPassword"
-              innerRef={confirmPasswordRef}
-              type="password"
+              ref={confirmPasswordRef}
+              type={confirmPasswordHidden ? "password" : "text"}
               placeholder="&bull;&bull;&bull;&bull;&bull;&bull;"
+              marginBottom={16}
+              Icon={confirmPasswordHidden ? Eye : EyeBlind}
+              onClickIcon={() => setConfirmPasswordHidden(previous => !previous)}
           />
         </div>
-        <Button width="100%">Register</Button>
+        <Button title="Register" />
         <div>
           <p className={styles.question}>
             Do you have an account? Login

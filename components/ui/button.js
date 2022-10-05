@@ -1,17 +1,55 @@
 import Link from 'next/link';
+import PropTypes from "prop-types";
+import Text from "./text";
 import styles from './button.module.css';
 
-export default function Button({ href, onClick = (() => {}), children,
-                                   circle = false, width = null, height = null }) {
-    if (!href) return (
-        <button className={`${ circle ? styles.circular : styles.squared }`} style={{ width: width, height: height }}
-                onClick={onClick}>{children}</button>
-    );
-    return (
+export default function Button({
+  title = null,
+  href = null,
+  onClick = null,
+  shape = "button",
+  width,
+  height,
+  Icon = null,
+  IconProps = {},
+  border = true
+}) {
+    border = !border ? 'none' : 'var(--border)';
+    return href ? (
         <Link href={href}>
-            <a className={`${ circle ? styles.circular : styles.squared }`} style={{ width: width, height: height }}>
-                {children}
-            </a>
+          <a className={`${styles.button} ${shape === "icon" ? styles.icon : styles.squared}`}
+           style={{
+            width,
+            height,
+            border
+          }}>
+            {title && <Text variant="button-text">{title}</Text>}
+            {Icon &&  <Icon {...IconProps} />}
+          </a>
         </Link>
+    ) : (
+      <button
+        className={`${styles.button} ${shape === "icon" ? styles.icon : styles.squared}`} onClick={onClick}
+        style={{
+          width,
+          height,
+          border
+        }}
+      >
+        {title && <Text variant="button-text">{title}</Text>}
+        {Icon &&  <Icon {...IconProps} />}
+      </button>
     );
 }
+
+Button.propTypes = {
+  title: PropTypes.string,
+  href: PropTypes.string,
+  onClick: PropTypes.func,
+  shape: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  Icon: PropTypes.elementType,
+  IconProps: PropTypes.object,
+  border: PropTypes.bool,
+};

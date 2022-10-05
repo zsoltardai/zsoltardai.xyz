@@ -10,13 +10,14 @@ export default function Introduction(){
               I&apos;m Zsolt<span className={styles.dot}>;</span>
           </h1>
           <div className={styles.content}>
-              <p className={styles.text}>
+              <span className={styles.text}>
                   and I&apos;m a frontend developer. I create websites using
                   <b> Next<span className={styles.dot}>.</span>js</b>
-              </p>
-              <Button href='/about'>
-                  Learn more..
-              </Button>
+              </span>
+              <Button
+                title="Learn more.."
+                href='/about'
+              />
           </div>
       </div>
     );

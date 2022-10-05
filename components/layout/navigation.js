@@ -1,4 +1,4 @@
-import {useContext, useEffect} from 'react';
+import {useContext} from 'react';
 import Link from 'next/link';
 import Logo from './logo';
 import Button from '../ui/button';
@@ -12,6 +12,7 @@ export default function Navigation() {
     const modeContext = useContext(ModeContext);
     const toggleModeHandler = () => (modeContext.toggleMode());
     const { session, logout } = useSession();
+    const mode = modeContext.mode;
     return (
         <header className={styles.header}>
             <Link href='/'>
@@ -55,26 +56,19 @@ export default function Navigation() {
                         )
                     }
                     <li>
-                        <Button height='35px' width='35px' circle onClick={toggleModeHandler}>
-                            {
-                                (modeContext.mode === 'light')
-                                    ?
-                                <Sun color='var(--text-color)' width={25} height={25} />
-                                    :
-                                <Moon color='var(--text-color)' width={20} height={20} />
-                            }
-                        </Button>
+                        <Button
+                            height={35}
+                            width={35}
+                            shape="icon"
+                            Icon={mode === 'light' ? Moon : Sun}
+                            IconProps={{
+                                color: 'var(--text-color)',
+                                size: mode === 'light' ? 18 : 22
+                            }}
+                            onClick={toggleModeHandler}
+                            border={false}
+                        />
                     </li>
-                    {
-                        (!session) &&
-                        (
-                            <li>
-                                <Button height='10px' width='180px' href='/contact'>
-                                    Contact me
-                                </Button>
-                            </li>
-                        )
-                    }
                 </ul>
             </nav>
         </header>

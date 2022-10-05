@@ -12,6 +12,7 @@ export default function NavigationDropdown() {
     const modeContext = useContext(ModeContext);
     const toggleModeHandler = () => (modeContext.toggleMode());
     const { loading, session, logout } = useSession();
+    const mode = modeContext.mode;
     return (
       <nav className={styles.nav}>
         <ul>
@@ -27,37 +28,26 @@ export default function NavigationDropdown() {
             <li>
                 <Link href='/contact'>Contact</Link>
             </li>
-            {
-               (!loading && session) ?
-                (
-                    <>
-                        <li>
-                            <Link href="/dashboard">Dashboard</Link>
-                        </li>
-                        <li>
-                            <a onClick={() => logout()}>Logout</a>
-                        </li>
-                    </>
-                ) :
-                (
-                    <li>
-                       <Button href="/login">
-                           Login
-                       </Button>
-                    </li>
-                )
-            }
+            <li>
+                <Button
+                    title={session ? 'Logout' : 'Login'}
+                    href={!session ? '/login' : null}
+                    onClick={() => session ? logout() : null}
+                />
+            </li>
             <li className={styles.switch}>
                 <Switch checked={(modeContext.mode === 'dark')} onChange={toggleModeHandler} />
-                <div className={styles.icon}>
-                    {
-                        (modeContext.mode === 'light')
-                            ?
-                            <Sun color='var(--text-color)' width={25} height={25} />
-                            :
-                            <Moon color='var(--text-color)' width={25} height={25} />
-                    }
-                </div>
+                <Button
+                    height={35}
+                    width={35}
+                    shape="icon"
+                    Icon={mode === 'light' ? Moon : Sun}
+                    IconProps={{
+                        color: 'var(--text-color)',
+                        size: mode === 'light' ? 22 : 28
+                    }}
+                    border={false}
+                />
             </li>
         </ul>
       </nav>

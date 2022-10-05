@@ -28,7 +28,7 @@ export default function ContactForm({ onSubmit, contact }) {
                     </textarea>
                 </div>
                 <div className={styles.actions}>
-                    <Button>Submit</Button>
+                    <Button title="Submit" />
                 </div>
             </form>
         </div>

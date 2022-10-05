@@ -1,17 +1,22 @@
 import styles from '../styles/login.module.css';
 import Button from "../components/ui/button";
 import Input from "../components/ui/input";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import useSession from "../hooks/useSession";
 import getSession from "../lib/auth/getSession";
 import {useRouter} from "next/router";
 import Link from "next/link";
+import Text from "../components/ui/text";
+import Envelope from "../components/icons/envelope";
+import Eye from "../components/icons/eye";
+import EyeBlind from "../components/icons/eye-blind";
 
 export default function Login() {
   const router = useRouter();
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login } = useSession();
+  const [hidden, setHidden] = useState(true);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
@@ -22,10 +27,23 @@ export default function Login() {
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <Input id="email" innerRef={emailRef} label="E-mail" placeholder="e.g. example.user@email.com" />
-        <Input id="password" innerRef={passwordRef} label="Password" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" />
-        <Button width="100%">Login</Button>
+        <Text variant="h1" marginBottom={32}>Login</Text>
+        <Input
+            ref={emailRef}
+            type="email"
+            placeholder="e.g. example.user@email.com"
+            marginBottom={22}
+            Icon={Envelope}
+        />
+        <Input
+            ref={passwordRef}
+            type={hidden ? "password" : "text"}
+            placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+            marginBottom={22}
+            Icon={hidden ? Eye : EyeBlind}
+            onClickIcon={() => setHidden(previous => !previous)}
+        />
+        <Button title="Login" />
         <div>
           <p className={styles.question}>
             Don&apos;t you have an account? Register

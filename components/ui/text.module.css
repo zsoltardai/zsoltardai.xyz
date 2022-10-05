@@ -1,0 +1,23 @@
+.text {
+    flex: 1;
+    color: var(--text-color);
+}
+
+.h1 {
+    font-size: 32px;
+    letter-spacing: 0.05rem;
+    font-weight: 700;
+}
+
+.plain {
+    font-size: 14px;
+    letter-spacing: 0.1rem;
+    font-weight: 500;
+}
+
+.button-text {
+    font-size: 18px;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
