@@ -5,7 +5,6 @@
     text-transform: uppercase;
     background: none;
     border-radius: var(--border-radius);
-    border: var(--border);
     font-weight: 700;
     font-size: 12pt;
 }
@@ -17,13 +16,16 @@
 
 .squared {
     padding: 10px;
-    background: none;
+    background-color: var(--primary-color);
+    border: none;
     width: 100%;
     flex: 1;
+    text-align: center;
 }
 
 .icon {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    border: none;
 }

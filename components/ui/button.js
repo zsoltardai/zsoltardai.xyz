@@ -12,16 +12,13 @@ export default function Button({
   height,
   Icon = null,
   IconProps = {},
-  border = true
 }) {
-    border = !border ? 'none' : 'var(--border)';
     return href ? (
         <Link href={href}>
           <a className={`${styles.button} ${shape === "icon" ? styles.icon : styles.squared}`}
            style={{
             width,
-            height,
-            border
+            height
           }}>
             {title && <Text variant="button-text">{title}</Text>}
             {Icon &&  <Icon {...IconProps} />}
@@ -29,15 +26,14 @@ export default function Button({
         </Link>
     ) : (
       <button
-        className={`${styles.button} ${shape === "icon" ? styles.icon : styles.squared}`} onClick={onClick}
+        className={`${styles.button} ${shape === "icon" ? styles.icon : styles.squared}`}
+        onClick={onClick}
         style={{
           width,
-          height,
-          border
-        }}
-      >
-        {title && <Text variant="button-text">{title}</Text>}
-        {Icon &&  <Icon {...IconProps} />}
+          height
+        }}>
+          {title &&<Text variant="button-text">{title}</Text>}
+          {Icon &&  <Icon {...IconProps} />}
       </button>
     );
 }

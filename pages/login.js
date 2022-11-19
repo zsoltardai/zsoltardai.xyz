@@ -1,6 +1,5 @@
 import styles from '../styles/login.module.css';
-import Button from "../components/ui/button";
-import Input from "../components/ui/input";
+import { Button, Input } from "../components/ui";
 import {useRef, useState} from "react";
 import useSession from "../hooks/useSession";
 import getSession from "../lib/auth/getSession";
@@ -38,7 +37,7 @@ export default function Login() {
         <Input
             ref={passwordRef}
             type={hidden ? "password" : "text"}
-            placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+            placeholder={"•".repeat(20)}
             marginBottom={22}
             Icon={hidden ? Eye : EyeBlind}
             onClickIcon={() => setHidden(previous => !previous)}

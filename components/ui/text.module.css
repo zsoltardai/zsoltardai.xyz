@@ -1,6 +1,7 @@
 .text {
     flex: 1;
     color: var(--text-color);
+    background: none;
 }
 
 .h1 {
@@ -20,4 +21,11 @@
     letter-spacing: 0.2rem;
     text-transform: uppercase;
     font-weight: 600;
+    color: var(--text-white);
+}
+
+.name-text {
+    font-size: 12px;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
 }
