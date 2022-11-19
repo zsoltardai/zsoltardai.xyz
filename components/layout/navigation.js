@@ -37,24 +37,6 @@ export default function Navigation() {
                             Blogs
                         </Link>
                     </li>
-                    {
-                        (session) ?
-                        (
-                            <>
-                                <li>
-                                    <Link href="/dashboard">Dashboard</Link>
-                                </li>
-                                <li>
-                                    <a onClick={() => logout()}>Logout</a>
-                                </li>
-                            </>
-                        ) :
-                        (
-                            <li>
-                                <Link href="/login">Login</Link>
-                            </li>
-                        )
-                    }
                     <li>
                         <Button
                             height={35}
@@ -67,6 +49,13 @@ export default function Navigation() {
                             }}
                             onClick={toggleModeHandler}
                             border={false}
+                        />
+                    </li>
+                    <li>
+                        <Button
+                            title={session ? 'Logout' : 'Login'}
+                            href={!session ? '/login' : null}
+                            onClick={() => session ? logout() : null}
                         />
                     </li>
                 </ul>

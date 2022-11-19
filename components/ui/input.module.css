@@ -13,11 +13,17 @@
     border: 1px solid var(--primary-color);
 }
 
-.container input {
+.container input,
+.container textarea {
     border: none;
     flex: 1;
 }
 
-.container input:focus {
+.container textarea {
+    resize: none;
+}
+
+.container input:focus,
+.container textarea:focus {
     outline: none;
 }

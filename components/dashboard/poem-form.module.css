@@ -5,66 +5,8 @@
     width: 50%;
 }
 
-.form h1 {
-    text-transform: uppercase;
-    font-size: 18pt;
-    margin: 0.5rem 0 0.2rem 0;
-}
-
-.group {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    grid-gap: 1rem;
-    margin: 0.5rem 0;
-}
-
-.control {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.control label {
-    font-size: 14pt;
-    text-transform: uppercase;
-    margin: 0.5rem;
-}
-
-.control input,
-.control textarea {
-    border: var(--border);
-    border-radius: var(--border-radius);
-    padding: 5px 10px;
-    font-size: 14pt;
-}
-
-.control textarea {
-    height: 120px;
-}
-
-.control input {
-    height: 35px;
-}
-
-.control select {
-    border: var(--border);
-    border-radius: var(--border-radius);
-    height: 40px;
-    padding: 5px 10px;
-    font-size: 14pt;
-}
-
 @media screen and (max-width: 900px) {
     .form {
         width: 100%;
-    }
-
-    .group {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .control textarea {
-        height: 250px;
     }
 }

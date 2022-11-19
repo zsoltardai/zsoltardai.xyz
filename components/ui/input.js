@@ -1,8 +1,8 @@
 import React, {createRef, forwardRef, useState} from "react";
 import styles from './input.module.css';
 
-function Input({Icon, IconProps, onClickIcon, width, marginBottom, ...props}, ref) {
-  const inputRef = ref || createRef(null);
+function Input({Icon, IconProps, onClickIcon, width, marginBottom, textarea = false, rows = 10, ...props}, ref) {
+  const inputRef = ref || createRef();
   const [focused, setFocused] = useState(ref?.current?.onfocus);
   return (
       <div className={`${styles.container} ${focused ? styles.focus : ""}`}
@@ -14,13 +14,25 @@ function Input({Icon, IconProps, onClickIcon, width, marginBottom, ...props}, re
          marginBottom
       }}
       >
-        <input
-          ref={inputRef}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          {...props}
-        />
-        {Icon && (
+        {textarea ?
+            (
+              <textarea
+                ref={inputRef}
+                rows={rows}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+                {...props} >
+              </textarea>
+            ):
+        (
+            <input
+                ref={inputRef}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+                {...props}
+            />
+        )}
+        {Icon && !textarea && (
           <Icon
               onClick={onClickIcon}
               style={{cursor: onClickIcon ? 'pointer' : 'default'}}

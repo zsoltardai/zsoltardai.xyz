@@ -1,38 +1,38 @@
+import React from 'react';
 import Head from 'next/head';
-import {useContext} from 'react';
 import PoemForm from '../components/dashboard/poem-form';
-import NotificationContext from '../store/notification-context';
 import Notification from '../components/layout/notification';
-import styles from '../styles/dashboard.module.css';
 import getSession from "../lib/auth/getSession";
+import {useNotification} from '../hooks';
+import styles from '../styles/dashboard.module.css';
 
-export default function Dashboard() {
-    const notificationContext = useContext(NotificationContext);
-    const notification = notificationContext.notification;
+const Dashboard = () => {
+    const {set, notification} = useNotification();
     const publishPoemHandler = async (title, content, date) => {
-        notificationContext.showNotification({
+        set({
             status: 'pending',
             title: 'Pending',
             message: 'Your poem is being published...'
         });
-        date = new Date(date).toISOString();
         const headers = { 'Content-Type': 'application/json', Accept: 'application/json' };
-        const body = JSON.stringify({ title, content, date });
-        const response = await fetch('/api/poems', { method: 'POST', headers: headers, body: body });
-        const data = await response.json();
+        const body = JSON.stringify({title, content, date});
+        const response = await fetch('/api/poems', {method: 'POST', headers: headers, body: body});
+        let message = await response.text();
         if (!response.ok) {
-            notificationContext.showNotification({
+            set({
                status: 'error',
                title: 'Error',
-               message: data.message
+               message
             });
             return false;
         }
 
-        notificationContext.showNotification({
+        message = 'Your poem has been published successfully!';
+
+        set({
             status: 'success',
             title: 'Success',
-            message: data.message
+            message
         });
 
         return true;
@@ -41,12 +41,13 @@ export default function Dashboard() {
         <div className={styles.container}>
             <Head>
                 <title>Dashboard</title>
-                <meta name='description' content='On this page you can add blog posts and poems.' />
+                <meta
+                    name='description'
+                    content='On this page you can add blog posts and poems.'
+                />
             </Head>
-            <PoemForm notificationContext={notificationContext} onPublishPoem={publishPoemHandler} />
-            {
-                notification
-                &&
+            <PoemForm onPublishPoem={publishPoemHandler} />
+            {notification &&
                 <Notification
                     status={notification.status}
                     title={notification.title}
@@ -56,6 +57,8 @@ export default function Dashboard() {
         </div>
     );
 }
+
+export default Dashboard;
 
 export async function getServerSideProps(context) {
     const session = await getSession({ req: context.req });
