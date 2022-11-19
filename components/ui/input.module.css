@@ -19,6 +19,15 @@
     flex: 1;
 }
 
+/* Change the white to any color */
+.container input:-webkit-autofill,
+.container input:-webkit-autofill:hover,
+.container input:-webkit-autofill:focus,
+.container input:-webkit-autofill:active{
+    -webkit-text-fill-color: var(--text-color) !important;
+    -webkit-box-shadow: 0 0 0 30px var(--background-color) inset !important;
+}
+
 .container textarea {
     resize: none;
 }
