@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Layout from '../components/layout/layout';
 import { ModeContextProvider } from '../store/mode-context';
 import { NotificationContextProvider } from '../store/notification-context';
+import { Analytics } from '@vercel/analytics/react';
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }) {
                 </Head>
                 <Layout>
                     <Component {...pageProps} />
+                    <Analytics />
                 </Layout>
             </ModeContextProvider>
         </NotificationContextProvider>
