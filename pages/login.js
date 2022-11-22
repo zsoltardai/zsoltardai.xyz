@@ -28,21 +28,24 @@ export default function Login() {
       <form className={styles.form} onSubmit={handleSubmit}>
         <Text variant="h1" marginBottom={32}>Login</Text>
         <Input
-            ref={emailRef}
-            type="email"
-            placeholder="e.g. example.user@email.com"
-            marginBottom={22}
-            Icon={Envelope}
+          ref={emailRef}
+          type="email"
+          placeholder="e.g. example.user@email.com"
+          marginBottom={22}
+          Icon={Envelope}
         />
         <Input
-            ref={passwordRef}
-            type={hidden ? "password" : "text"}
-            placeholder={"•".repeat(20)}
-            marginBottom={22}
-            Icon={hidden ? Eye : EyeBlind}
-            onClickIcon={() => setHidden(previous => !previous)}
+          ref={passwordRef}
+          type={hidden ? "password" : "text"}
+          placeholder={"•".repeat(20)}
+          marginBottom={22}
+          Icon={hidden ? Eye : EyeBlind}
+          onClickIcon={() => setHidden(previous => !previous)}
         />
-        <Button title="Login" />
+        <Button
+          title="Login"
+          width="100%"
+        />
         <div>
           <p className={styles.question}>
             Don&apos;t you have an account? Register

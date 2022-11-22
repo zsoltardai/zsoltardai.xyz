@@ -3,22 +3,24 @@ import PropTypes from "prop-types";
 import Text from "./text";
 import styles from './button.module.css';
 
-export default function Button({
+const Button = ({
   title = null,
   href = null,
   onClick = null,
   shape = "button",
-  width,
+  width = 330,
   height,
   Icon = null,
   IconProps = {},
-}) {
+  marginBottom = 0,
+}) => {
     return href ? (
         <Link href={href}>
           <a className={`${styles.button} ${shape === "icon" ? styles.icon : styles.squared}`}
-           style={{
+          style={{
             width,
-            height
+            height,
+            marginBottom
           }}>
             {title && <Text variant="button-text">{title}</Text>}
             {Icon &&  <Icon {...IconProps} />}
@@ -30,7 +32,8 @@ export default function Button({
         onClick={onClick}
         style={{
           width,
-          height
+          height,
+          marginBottom
         }}>
           {title &&<Text variant="button-text">{title}</Text>}
           {Icon &&  <Icon {...IconProps} />}
@@ -49,3 +52,5 @@ Button.propTypes = {
   IconProps: PropTypes.object,
   border: PropTypes.bool,
 };
+
+export default Button;

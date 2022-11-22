@@ -3,24 +3,24 @@
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
-    background: none;
     border-radius: var(--border-radius);
+    background: none;
     font-weight: 700;
     font-size: 12pt;
+    min-height: 35px;
 }
 
 .button:hover {
-    cursor: pointer;
     filter: brightness(1.2);
+    cursor: pointer;
 }
 
 .squared {
-    padding: 10px;
     background-color: var(--primary-color);
-    border: none;
-    width: 100%;
-    flex: 1;
     text-align: center;
+    margin: 0.5rem 0;
+    border: none;
+    flex: 1;
 }
 
 .icon {
