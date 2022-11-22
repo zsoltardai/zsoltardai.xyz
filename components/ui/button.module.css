@@ -18,7 +18,6 @@
 .squared {
     background-color: var(--primary-color);
     text-align: center;
-    margin: 0.5rem 0;
     border: none;
     flex: 1;
 }
