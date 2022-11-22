@@ -62,6 +62,7 @@ const PoemForm = ({onPublishPoem}) => {
           />
           <Button
             title="Publish"
+            width="100%"
           />
       </form>
     );

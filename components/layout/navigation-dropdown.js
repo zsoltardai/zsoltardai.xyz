@@ -33,6 +33,7 @@ export default function NavigationDropdown() {
                     title={session ? 'Logout' : 'Login'}
                     href={!session ? '/login' : null}
                     onClick={() => session ? logout() : null}
+                    width="100%"
                 />
             </li>
             <li className={styles.switch}>
