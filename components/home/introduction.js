@@ -17,6 +17,7 @@ export default function Introduction(){
               <Button
                 title="Learn more.."
                 href='/about'
+                height={40}
               />
           </div>
       </div>
